@@ -222,8 +222,8 @@ unsigned long timer=0, timer0=0, timer_now=0, clock_offset=0, timer_chstart=0;
 int GFIblankingtime=20; // mask GFI trips for this many milliseconds from relay's closing - anti-noise
 unsigned int delta=0;
 char *daysStr[7]={"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-unsigned int starttime[7]={0, 0, 0, 0, 0, 0, 0};
-unsigned int endtime[7]={7, 7, 7, 7, 7, 17, 17}; // start and end times by weekday
+unsigned int starttime[7]={ -1, -1, -1, -1, -1, -1, -1 }; // start and end times by weekday
+unsigned int endtime[7]={ 24, 24, 24, 24, 24, 24, 24 };   // a start of -1 and end of 24 is always on
 // sensor timings
 const int meas_cycle_delay=100; // in ms
 // how often to report on status

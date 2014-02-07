@@ -1,5 +1,5 @@
 /*
-EMW JuiceBox - an open-source 15kW EVSE
+EMotorWerks JuiceBox - an open-source 15kW EVSE
 
 Micro-Controller: Arduino Pro Mini 5V, (based on a ATmega328P-PU microcontroller)
 
@@ -50,10 +50,10 @@ const int V_AC_threshold=120; // normally 164
 // #define CT_3100
 // #define JB_WiFi // is WiFi installed & we are using WiFlyHQ library?
  #define JB_WiFi_simple // is WiFi installed and we are just pushing data?
-// #define LCD_SGC
+// #define LCD_SGC // old version of the u144 LCD - used in some early JuiceBoxes
 //#define PCB_81 // 8.1 version of the PCB
- #define PCB_83 // 8.3+ version of the PCB 
- #define VerStr "V8.6.4" // detailed exact version of firmware (thanks Gregg!)
+ #define PCB_83 // 8.3+ version of the PCB, includes 8.6, 8.7 versions
+ #define VerStr "V8.6.5" // detailed exact version of firmware (thanks Gregg!)
  #define GFI // need to be uncommented for GFI functionality
 // #define trim120current
 //------------------------------- END MAIN SWITCHES ------------------------------
@@ -78,7 +78,7 @@ const char UDPpacketEndSig[6]="\n"; // what is the signature of the packet end (
 // need this to remap PWM frequency
 #include <TimerOne.h>
 
-// EMW LCD library for 4D systems display (http://www.4dsystems.com.au/prod.php?id=121)
+// our LCD library for 4D systems display (http://www.4dsystems.com.au/prod.php?id=121)
 // 4D Systems in its infinite wisdom decided to completely change the command set in its new 
 // release of the LCDs so we (and other countless developers) had to completely rewrite our
 // LCD libraries
@@ -222,7 +222,7 @@ unsigned long timer=0, timer0=0, timer_now=0, clock_offset=0, timer_chstart=0;
 int GFIblankingtime=20; // mask GFI trips for this many milliseconds from relay's closing - anti-noise
 unsigned int delta=0;
 char *daysStr[7]={"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-unsigned int starttime[7]={0, 0, 0, 0, 0, 0, 0}; 
+unsigned int starttime[7]={0, 0, 0, 0, 0, 0, 0};
 unsigned int endtime[7]={7, 7, 7, 7, 7, 17, 17}; // start and end times by weekday
 // sensor timings
 const int meas_cycle_delay=100; // in ms
@@ -309,7 +309,7 @@ void setup() {
     myLCD->setOpacity(1);
     myLCD->setMode(1); // reverse landscape
 
-    printClrMsg(F("Thank You for\nchoosing EMW\nJ.u.i.c.e B.o.x !!!"), 5000, 0, 0x3f, 0);
+    printClrMsg(F("Thank You for\nchoosing \nJ.u.i.c.e B.o.x !!!"), 5000, 0, 0x3f, 0);
     
     // will need to add pull of the true RTC time from a WiFi module here 
 #ifdef JB_WiFi_simple
@@ -600,7 +600,7 @@ void loop() {
         // by now, if the trip occurred, the GFI trip flag should be set
         if(GFI_tripped==1) {
           // we have a stuck relay, throw an error
-          printErrorMsg(F("STUCK RELAY! \nContact EMW\nExiting..."), 30000);
+          printErrorMsg(F("STUCK RELAY! \nContact us\nExiting..."), 30000);
           return; // break from loop() which will be called back a moment later
         }
 #endif
